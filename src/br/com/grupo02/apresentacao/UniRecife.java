@@ -39,7 +39,27 @@ public class UniRecife {
 janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 janela.pack();
 janela.setVisible(true);
-      
+   
+//TESTAR OFERTA
+        /* try {
+            inserirOferta();
+            } catch (ParseException ex) {
+            Logger.getLogger(UniRecife.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            */
+            /*try{
+            atualizarOferta();
+            } catch (ParseException ex) {
+            Logger.getLogger(UniRecife.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           */
+          
+            //deletarOferta();            
+           
+           //buscarPorIdOferta();
+           
+           // listarTodosOferta();
+//FIM TESTAR OFERTA
 
     }
 
@@ -193,4 +213,103 @@ janela.setVisible(true);
         }
     
     }
+    
+     
+          
+        
+     
+/**
+ * Método para testar Inserir Oferta
+ */
+
+    public static void inserirOferta() throws ConexaoException, DAOException,ParseException { 
+        
+        try {
+            Professor professor = new Professor();
+            Disciplina disciplina = new Disciplina();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            java.util.Date date =  sdf.parse("30/09/2018");
+            professor.setId(1);
+            disciplina.setId(2);
+
+            Oferta oferta = new Oferta();
+           
+            oferta.setDisciplina(disciplina);
+            oferta.setProfessor(professor);
+            oferta.setId(1);
+            oferta.setData(new java.sql.Date(date.getTime()));  
+            System.out.println("Data: "+ oferta.getData());
+            OfertaDAO dao = new OfertaDAO();
+            dao.inserir(oferta);
+            
+        } catch (ConexaoException | DAOException ex) {
+            ex.getMessage();
+        }
+
+    }
+
+    public static void atualizarOferta() throws ConexaoException, DAOException, ParseException {
+         
+        
+        try {
+            Professor professor= new Professor();
+            Disciplina disciplina = new Disciplina();
+            SimpleDateFormat sdf = new SimpleDateFormat ("dd/MM/yyyy");
+            java.util.Date date = sdf.parse("25/09/2017");
+            professor.setId(2);
+            disciplina.setId(3);
+            
+            Oferta oferta = new Oferta();
+            oferta.setId(10);
+            oferta.setData(new java.sql.Date(date.getTime()));
+            System.out.println("Data: "+ oferta.getData());
+            oferta.setDisciplina(disciplina);
+            oferta.setProfessor(professor);
+            
+            OfertaDAO dao = new OfertaDAO();
+            dao.atualizar(oferta);
+            } catch (ConexaoException | DAOException ex) {
+            ex.getMessage();
+
+        }
+    }
+    public static void deletarOferta() throws ConexaoException, DAOException { 
+        
+        OfertaDAO dao = new OfertaDAO();
+        Oferta oferta = new Oferta();
+        oferta.setId(8);
+        dao.deletar(oferta.getId());
+        System.out.println("Excluido com Sucesso!");
+    }    
+        
+    public static void buscarPorIdOferta() throws ConexaoException, DAOException{
+        
+        int id = 7; 
+        
+        OfertaDAO dao = new OfertaDAO();
+        Oferta oferta = dao.buscarPorId(id);
+        
+        System.out.println("Consulta Realizada com sucesso!");  
+        
+        System.out.println("Id da Oferta: "+ oferta.getId());
+        System.out.println("Dados do ID Disciplina: "+ oferta.getDisciplina());
+        System.out.println("Dados do ID Professor: "+ oferta.getProfessor());
+        System.out.println("Dados do Horario: "+ oferta.getData());
+      
+    }
+    public static void listarTodosOferta () throws ConexaoException, DAOException{
+    
+        OfertaDAO dao = new OfertaDAO ();
+        List<Oferta> listaOferta;
+        listaOferta = dao.listarTodos();
+        
+        for(Oferta oft :listaOferta ){
+            System.out.println("Id da Oferta: " + oft.getId());
+            System.out.println("ID Disciplina" + oft.getDisciplina());
+            System.out.println("Dados do ID Professor: "+ oft.getProfessor());
+            System.out.println("Dados do Horario: "+ oft.getData());
+        }
+           
+    }
+
 }
